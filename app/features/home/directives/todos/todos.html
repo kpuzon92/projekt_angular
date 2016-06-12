@@ -13,5 +13,26 @@
     <input ng-model="newMessageText" />
    <button type="submit" class="btn btn-primary">Add Message</button>
   </form>
+  
+  <table class="table">
+    
+    <thead>
+      <th>E-mail</th>
+      <th>Task</th>
+    </thead>
+    
+    <tbody>
+      <tr ng-repeat="message in messages">
+        <td>{{message.Email}}</td>
+        <td>{{message.Task}}</td>
+      </tr>
+    </tbody>
+    
+  </table>
+  
+  
   </div>
+  
+
+  
 </body>
