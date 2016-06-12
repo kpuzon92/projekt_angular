@@ -1,0 +1,17 @@
+<body ng-controller="HomeController">
+  <div class="col-md-6 col-md-offset-3">
+  <ul>
+    <li ng-repeat="message in messages">
+
+      <input ng-model="message.text" ng-change="messages.$save(message)" />
+
+      <button ng-click="messages.$remove(message)">Delete Message</button>
+    </li>
+  </ul>
+  <!-- push a new message onto the array -->
+  <form ng-submit="addMessage()">
+    <input ng-model="newMessageText" />
+   <button type="submit" class="btn btn-primary">Add Message</button>
+  </form>
+  </div>
+</body>
