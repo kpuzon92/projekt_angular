@@ -1,38 +1,80 @@
-<body ng-controller="HomeController">
-  <div class="col-md-6 col-md-offset-3">
-  <ul>
-    <li ng-repeat="message in messages">
+<body ng-app="app">
 
-      <input ng-model="message.text" ng-change="messages.$save(message)" />
+  <ng-view>
+    <div class="container" ng-controller="HomeController">
+      <div class="col-xs-12 col-sm-12 col-md-8 col-lg-offset-2 col-lg-offset-8">
+        <h2>ToDo App</h2>
+        <div class="form">
+          <div class="input-group">
+            <input type="text" class="form-control" ng-model="task">
+            <span class="input-group-btn">
+            <button class="btn btn-info" ng-disabled= "!task " type="button" ng-click="addTask()"><span
+              class="glyphicon glyphicon-plus"></span> Add Task</button>
+            </span>
+          </div>
+        </div>
+        <hr/>
 
-      <button ng-click="messages.$remove(message)">Delete Message</button>
-    </li>
-  </ul>
-  <!-- push a new message onto the array -->
-  <form ng-submit="addMessage()">
-    <input ng-model="newMessageText" />
-   <button type="submit" class="btn btn-primary">Add Message</button>
-  </form>
-  
-  <table class="table">
-    
-    <thead>
-      <th>E-mail</th>
-      <th>Task</th>
-    </thead>
-    
-    <tbody>
-      <tr ng-repeat="message in messages">
-        <td>{{message.Email}}</td>
-        <td>{{message.Task}}</td>
-      </tr>
-    </tbody>
-    
-  </table>
-  
-  
-  </div>
-  
+        <div ng-show="isLogged">
+          <div class="btn-group btn-group-justified" role="group">
+            <div class="btn-group" role="group">
+              <button class="btn btn-default" type="button" ng-click="filterAll()"> All ({{(messages | filter: {mail : emailToFilter}).length }}) </button>
+              <p> <span class="badge"></span></p>
+            </div>
+            <div class="btn-group" role="group">
+              <button class="btn btn-default" type="button" ng-click="filterActive()">Active ({{(messages | filter: {mail : emailToFilter} | filter : { done : false }).length }}) </button>
 
-  
+            </div>
+            <div class="btn-group" role="group">
+              <button class="btn btn-default" type="button" ng-click="filterDone()">Done ({{(messages | filter: {mail : emailToFilter} | filter : { done : true }).length }}) </button>
+            </div>
+          </div>
+
+
+          <div style="padding-top: 1cm;">
+            <button class="btn btn-success" type="button" ng-click="showAll()"> All</button>
+            <button class="btn btn-info" type="button" ng-click="showMine()">Mine</button>
+          </div>
+
+          <br />
+
+          <div style="display: table;">
+
+            <div ng-show="isActiveVisible" style="display :table-cell; width : 400px" align='left'>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="message in messages | filter: {mail : emailToFilter} | filter : {done : false}">
+                  <p class="lead">{{message.text}}</p>
+                  <div>
+                    <span class="pull-right">
+                    <button class="btn btn-primary btn-xs" ng-show="!message.done" ng-click="doneTask(message)"><span class="glyphicon glyphicon-ok"></span></button>
+                    <button class="btn btn-primary btn-xs" ng-show="message.done" ng-click="unDoneTask(message)"><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-danger btn-xs" ng-show="message.mail == email" ng-click="deleteTask(message)"><span class="glyphicon glyphicon-remove"></span></button>
+                    </span>
+                  </div>
+                  <p class="lead">{{message.mail}}</p>
+                </li>
+              </ul>
+            </div>
+
+            <div ng-show="isDoneVisible" style="display :table-cell; width : 400px" align='right'>
+              <ul class="list-group">
+                <li class="list-group-item" ng-repeat="message in messages | filter: {mail : emailToFilter} | filter : {done : true}" ng-class="{disabled: message.done }">
+                  <p class="lead" align='left'>{{message.text}}</p>
+                  <div>
+                    <span class="pull-right">
+                    <button class="btn btn-primary btn-xs" ng-show="!message.done" ng-click="doneTask(message)"><span class="glyphicon glyphicon-ok"></span></button>
+                    <button class="btn btn-primary btn-xs" ng-show="message.done" ng-click="unDoneTask(message)"><span class="glyphicon glyphicon-pencil"></span></button>
+                    <button class="btn btn-danger btn-xs" ng-show="message.mail == email" ng-click="deleteTask(message)"><span class="glyphicon glyphicon-remove"></span></button>
+                    </span>
+                  </div>
+                  <p class="lead" align='left'>{{message.mail}}</p>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-view>
 </body>
