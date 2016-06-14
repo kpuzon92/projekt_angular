@@ -3,7 +3,7 @@
 export default class HomeController {
     constructor($scope, $firebaseArray, $firebaseAuth, $rootScope) {
 
-        var ref = new Firebase("https://popping-torch-9340.firebaseio.com");
+        var ref = new Firebase("https://popping-torch-9340.firebaseio.com/");
         $scope.messages = $firebaseArray(ref);
 
         $scope.addMessage = function() {
@@ -44,7 +44,7 @@ export default class HomeController {
         };
         
         $scope.addTask = function(){
-            var message_ref = new Firebase("https://popping-torch-9340.firebaseio.com");
+            var message_ref = new Firebase("https://popping-torch-9340.firebaseio.com/");
             var newMessageRef = message_ref.push();
             newMessageRef.set({
                 'done': false,
@@ -55,16 +55,16 @@ export default class HomeController {
         };
         
         $scope.doneTask = function(message) {
-            var ref = new Firebase('https://popping-torch-9340.firebaseio.com' + message.$id);
-            ref.update({
-                done: true
+            var ref1 = new Firebase('https://popping-torch-9340.firebaseio.com/' + message.$id);
+            ref1.update({
+                'done': true
             });
         };
         
         $scope.unDoneTask = function(message) {
-            var ref = new Firebase('https://popping-torch-9340.firebaseio.com' + message.$id);
+            var ref = new Firebase('https://popping-torch-9340.firebaseio.com/' + message.$id);
             ref.update({
-                done: false
+                'done': false
             });
         };
 
