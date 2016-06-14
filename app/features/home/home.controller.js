@@ -6,43 +6,29 @@ export default class HomeController {
         var ref = new Firebase("https://popping-torch-9340.firebaseio.com/");
         $scope.messages = $firebaseArray(ref);
 
-        $scope.addMessage = function() {
-            $scope.messages.$add({
-                text: $scope.newMessageText
-            });
-        };
-
-        $scope.emails = [];
+        //$scope.emails = [];
         $rootScope.emailToFilter = "";
-
+        
         $rootScope.isLogged = false;
         $scope.isDoneVisible = true;
         $scope.isActiveVisible = true;
-        
-        $scope.loginUser = function() {
-            ref.orderByValue().on("value", function(snapshot) {
-                snapshot.forEach(function(data) {
-                    var firebase_mail = data.val().mail;
-                    if ($scope.emails.indexOf(firebase_mail) == -1) {
-                        $scope.emails.push(firebase_mail);
-                    }
-                });
-            });
-//}; //tutaj
-        $scope.isLogged = $scope.emails.some(function(arrVal) {
-                return $scope.email === arrVal;
-            });
-        if ($scope.isLogged) {
-                alert("Successfully logged!");
-                $scope.emailToFilter = $scope.email;
-            }
-            else {
 
-                alert("Login not found. To register add new task with this email and then login again.");
-            }
+  $scope.loginUser = function(value) {
+      var ref = /[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}/igm;
+      if ($scope.email == '' || !ref.test($scope.email)){
+           //tempmail="";
+           $scope.isLogged=false;
+           alert("Podany adres email jest nieprawidłowy");
+      }
+      else{
+          alert("zalogowano poprawnie");
+         // $scope.emailAuth = $scope.email;
+          $scope.isLogged=true;   
+          $scope.emailToFilter=$scope.email;
+        }
+    };
 
-        };
-        
+
         $scope.addTask = function(){
             var message_ref = new Firebase("https://popping-torch-9340.firebaseio.com/");
             var newMessageRef = message_ref.push();

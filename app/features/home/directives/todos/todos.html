@@ -15,7 +15,7 @@
         </div>
         <hr/>
 
-        <div ng-show="isLogged">
+        <div ng-show="isLogged==true">
           <div class="btn-group btn-group-justified" role="group">
             <div class="btn-group" role="group">
               <button class="btn btn-default" type="button" ng-click="filterAll()"> All ({{(messages | filter: {mail : emailToFilter}).length }}) </button>
@@ -29,18 +29,20 @@
               <button class="btn btn-default" type="button" ng-click="filterDone()">Done ({{(messages | filter: {mail : emailToFilter} | filter : { done : true }).length }}) </button>
             </div>
           </div>
+          <hr/>
 
-
-          <div style="padding-top: 1cm;">
-            <button class="btn btn-default" type="button" ng-click="showAll()"> All</button>
+        <div class="btn-group btn-group-justified" role="group">
+          <div class="btn-group" role="group">  
+            <button class="btn btn-default" type="button" ng-click="showAll()">All</button>
+          </div>
+          <div class="btn-group" role="group">
             <button class="btn btn-default" type="button" ng-click="showMine()">Mine</button>
           </div>
+        </div>
 
           <br />
 
-          <div style="display: table;">
-
-            <div ng-show="isActiveVisible" style="display :table-cell; width : 400px" align='left'>
+            <div ng-show="isActiveVisible">
               <ul class="list-group">
                 <li class="list-group-item" ng-repeat="message in messages | filter: {mail : emailToFilter} | filter : {done : false}">
                   <p class="lead">{{message.text}}</p>
@@ -56,7 +58,7 @@
               </ul>
             </div>
 
-            <div ng-show="isDoneVisible" style="display :table-cell; width : 400px" align='right'>
+            <div ng-show="isDoneVisible">
               <ul class="list-group">
                 <li class="list-group-item" ng-repeat="message in messages | filter: {mail : emailToFilter} | filter : {done : true}" ng-class="{disabled: message.done }">
                   <p class="lead" align='left'>{{message.text}}</p>
@@ -72,7 +74,6 @@
               </ul>
             </div>
 
-          </div>
         </div>
       </div>
     </div>
